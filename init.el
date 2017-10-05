@@ -7,10 +7,12 @@
 (size-indication-mode t)
 
 (require 'package)
-(package-initialize)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 
-(load-theme 'zenburn t)
+(package-initialize)
+
+;;(load-theme 'zenburn t)
+(load-theme 'gruvbox t)
 
 (setq inferior-lisp-program "sbcl")
 
