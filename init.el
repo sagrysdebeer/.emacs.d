@@ -11,6 +11,12 @@
 
 (package-initialize)
 
+;; Remove security vulnerability
+;; http://www.openwall.com/lists/oss-security/2017/09/11/1
+(eval-after-load "enriched"
+  '(defun enriched-decode-display-prop (start end &optional param)
+     (list start end)))
+
 ;;(load-theme 'zenburn t)
 (load-theme 'gruvbox t)
 
