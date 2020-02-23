@@ -22,8 +22,10 @@
 
 (setq inferior-lisp-program "sbcl")
 
-(setq c-default-style "k&r"
+(setq c-default-style "bsd"
       c-basic-offset 4)
+
+(setq-default indent-tabs-mode nil)
 
 (setq org-log-done 'time)
 (setq org-export-with-sub-superscripts '{})
