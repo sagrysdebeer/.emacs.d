@@ -57,28 +57,4 @@
   (interactive)
   (uniquify-region-lines (point-min) (point-max)))
 
-;; references
-;; http://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html
-;; http://orgmode.org/org.html#Publishing-options
-;; note org-publish-org-to-html will change to org-html-publish-to-html in Org-mode 8.0
-(require 'org-publish)
-(setq org-publish-project-alist
-      '(
-	("org-notes"
-	 :base-directory "~/projects/github.io/src/"
-	 :base-extension "org"
-	 :publishing-directory "~/projects/github.io/pub/"
-	 :recursive t
-	 :publishing-function org-publish-org-to-html
-	 :headline-levels 4
-	 :html-preamble nil
-	 :html-postamble nil
-	 :author "Sagrys de Beer")
-	("static-files"
-	 :base-directory "~/projects/github.io/src/"
-	 :base-extension "css\\|js\\|png\\|jpg\\|jpeg"
-	 :publishing-directory "~/projects/github.io/pub/"
-	 :recursive t
-	 :publishing-function org-publish-attachment)
-	("blog"
-	 :components ("org-notes" "static-files"))))
+
