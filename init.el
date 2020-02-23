@@ -30,6 +30,10 @@
 (setq org-log-done 'time)
 (setq org-export-with-sub-superscripts '{})
 
+(setq deft-extensions '("org" "txt" "tex"))
+
+(require 'deft)
+
 (defun zoom-in ()
   (interactive)
   (text-scale-increase 1))
