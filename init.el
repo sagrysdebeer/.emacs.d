@@ -25,6 +25,12 @@
 (setq c-default-style "bsd"
       c-basic-offset 4)
 
+(add-hook 'sgml-mode-hook
+          (lambda ()
+            ;; Default indentation to 2, but let SGML mode guess, too.
+            (set (make-local-variable 'sgml-basic-offset) 2)
+            (sgml-guess-indent)))
+
 (setq-default indent-tabs-mode nil)
 
 (setq org-log-done 'time)
@@ -58,9 +64,24 @@
       (while (re-search-forward "^\\(.*\n\\)\\1+" end t)
         (replace-match "\\1"))))
 
+
 (defun uniquify-buffer-lines ()
   "Remove duplicate adjacent lines in the current buffer."
   (interactive)
   (uniquify-region-lines (point-min) (point-max)))
 
 
+;; https://unix.stackexchange.com/questions/45125/how-to-get-current-buffers-filename-in-emacs
+;; current shitty solution to creating links in my mini zettelkasten
+
+(defun file-name-to-kill-ring ()
+  "Put the full path of the current buffer in the kill-ring."
+  (interactive)
+  (kill-new (buffer-file-name (window-buffer (minibuffer-selected-window)))))
+
+(defun my-csharp-mode-hook ()
+  (omnisharp-mode)
+  (flycheck-mode)
+  (local-set-key (kbd "<C-tab>") 'omnisharp-auto-complete))
+
+(add-hook 'csharp-mode-hook 'my-csharp-mode-hook)
