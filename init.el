@@ -18,7 +18,8 @@
      (list start end)))
 
 ;;(load-theme 'zenburn t)
-(load-theme 'gruvbox t)
+(if (locate-file "gruvbox-theme.el" custom-theme-load-path '("" "c"))
+    (load-theme 'gruvbox t))
 
 (setq inferior-lisp-program "sbcl")
 
@@ -38,7 +39,7 @@
 
 (setq deft-extensions '("org" "txt" "tex"))
 
-(require 'deft)
+(require 'deft nil 'noerror)
 
 (defun zoom-in ()
   (interactive)
