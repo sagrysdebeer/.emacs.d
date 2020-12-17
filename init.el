@@ -49,8 +49,9 @@
   (interactive)
   (text-scale-decrease 1))
 
-(global-set-key (kbd "<C-wheel-up>") 'zoom-in)
-(global-set-key (kbd "<C-wheel-down>") 'zoom-out)
+;; on windows its C-wheel-up and C-wheel-down?
+(global-set-key (kbd "<C-mouse-4>") 'zoom-in)
+(global-set-key (kbd "<C-mouse-5>") 'zoom-out)
 
 (global-set-key (kbd "C-`") 'call-last-kbd-macro)
 
@@ -71,14 +72,7 @@
   (interactive)
   (uniquify-region-lines (point-min) (point-max)))
 
-
-;; https://unix.stackexchange.com/questions/45125/how-to-get-current-buffers-filename-in-emacs
-;; current shitty solution to creating links in my mini zettelkasten
-
-(defun file-name-to-kill-ring ()
-  "Put the full path of the current buffer in the kill-ring."
-  (interactive)
-  (kill-new (buffer-file-name (window-buffer (minibuffer-selected-window)))))
+;; chsarp stuff
 
 (defun my-csharp-mode-hook ()
   (omnisharp-mode)
@@ -86,3 +80,30 @@
   (local-set-key (kbd "<C-tab>") 'omnisharp-auto-complete))
 
 (add-hook 'csharp-mode-hook 'my-csharp-mode-hook)
+
+
+;; https://unix.stackexchange.com/questions/45125/how-to-get-current-buffers-filename-in-emacs
+;; current solution to creating links in my mini zettelkasten
+
+(defun file-name-to-kill-ring ()
+  "Put the full path of the current buffer in the kill-ring."
+  (interactive)
+  (kill-new (buffer-file-name (window-buffer (minibuffer-selected-window)))))
+
+
+(defun zk-get-title ()
+  (let* ((regexp "^[[:space:]]*#\\+TITLE:[[:space:]]*\\(.*?\\)[[:space:]]*$")
+         (start (point-min))
+         (string (buffer-substring-no-properties start
+                                                 (min (+ start 150) (point-max)))))
+    (if (string-match regexp string 0)
+        (replace-regexp-in-string "#\\+TITLE:[[:space:]]" "" (string-trim (match-string 0 string)))
+      nil)))
+
+(defun zk-self-link-to-kill-ring()
+  (interactive)
+  (let* ((name (buffer-file-name (window-buffer (minibuffer-selected-window))))
+         (title (zk-get-title)))
+    (if (and name title)
+        (kill-new (concat "[[" (replace-regexp-in-string "/home/[.]*/" "~/" name) "][" title "]]"))
+      nil)))
