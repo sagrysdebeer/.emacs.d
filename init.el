@@ -90,6 +90,7 @@
   (interactive)
   (kill-new (buffer-file-name (window-buffer (minibuffer-selected-window)))))
 
+(require 'subr-x)
 
 (defun zk-get-title ()
   (let* ((regexp "^[[:space:]]*#\\+TITLE:[[:space:]]*\\(.*?\\)[[:space:]]*$")
@@ -100,10 +101,11 @@
         (replace-regexp-in-string "#\\+TITLE:[[:space:]]" "" (string-trim (match-string 0 string)))
       nil)))
 
-(defun zk-self-link-to-kill-ring()
+(defun zk-insert-self-link()
   (interactive)
   (let* ((name (buffer-file-name (window-buffer (minibuffer-selected-window))))
          (title (zk-get-title)))
     (if (and name title)
-        (kill-new (concat "[[" (replace-regexp-in-string "/home/[.]*/" "~/" name) "][" title "]]"))
+        (save-excursion
+          (insert (concat "[[" (replace-regexp-in-string "/home/[.]*/" "~/" name) "][" title "]]")))
       nil)))
